@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    background-image: url(https://t3.ftcdn.net/jpg/01/17/33/22/360_F_117332203_ekwDZkViF6M3itApEFRIH4844XjJ7zEb.jpg);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 10px;
+    overflow: auto;
+}
+
+.container {
+    width: 40%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.form-section, .order-section, .summary-section {
+    margin-bottom: 20px;
+}
+
+.form-box, .product-table-wrapper, .customer-section, .summary-section {
+    background: rgba(211, 207, 207, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input, button {
+    display: block;
+    margin: 10px auto;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+
+button {
+    background-color: gray;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #000000d6;
+}
+
+.summary-section input[type="number"] {
+    border: none;
+    outline: none;
+    width: 50px;
+}
+
+i {
+    font-size: 2rem;
+}
+
+#customerList { 
+    background-color: white;
+    color: black;
+    outline: none;
+    width: 50%;
+    height: 30px;
+}
+
+@media (max-width: 768px) {
+    body {
+        display: block; 
+        padding: 10px;
+    }
+
+    .container {
+        width: 90%; 
+        padding: 15px;
+    }
+
+    input, button {
+        width: 100%; 
+        font-size: 1rem;
+        margin: 8px 0; 
+    }
+
+    table {
+        font-size: 0.9rem; 
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    #customerList {
+        width: 100%; 
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .summary-section input[type="number"] {
+        width: 40px;
+    }
+
+    i {
+        font-size: 1.8rem; 
+    }
+}
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    .container {
+        width: 95%; 
+        padding: 10px;
+    }
+
+    input, button {
+        padding: 10px; 
+        font-size: 0.9rem; 
+    }
+
+    th, td {
+        padding: 6px; 
+        font-size: 0.8rem; 
+    }
+
+    table {
+        font-size: 0.8rem; 
+    }
+
+    .summary-section input[type="number"] {
+        width: 30px;
+    }
+
+    #customerList {
+        width: 100%;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+
+    i {
+        font-size: 1.5rem;
+    }
+
+    #totalAmount {
+        font-size: 1rem; 
+        text-align: center;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        width: 100%;
+        padding: 8px;
+    }
+
+    input, button {
+        padding: 8px; 
+        font-size: 0.8rem; 
+    }
+
+    th, td {
+        padding: 4px; 
+        font-size: 0.7rem;
+    }
+
+    table {
+        font-size: 0.7rem; 
+    }
+
+    .summary-section input[type="number"] {
+        width: 25px; 
+    }
+
+    #customerList {
+        width: 100%;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+
+    i {
+        font-size: 1.2rem; 
+    }
+
+    #totalAmount {
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
+</style>
+<body>
+    <div class="container">
+        <div id="formSection" class="form-section">
+            <div class="form-box">
+                <h2>Add Product</h2>
+                <input type="text" id="productName" placeholder="Product Name">
+                <input type="number" id="productPrice" placeholder="Product Price">
+                <button onclick="addProduct()">Add Product</button>
+            </div>
+        </div>
+        
+        <div id="customerSection" class="customer-section" style="display: none;">
+            <div class="form-box">
+                <h2>Add Customer</h2>
+                <input type="text" id="customerName" placeholder="Customer Name">
+                <button onclick="addCustomer()">Add Customer</button>
+                <button onclick="showAddProductSection()">More Products</button>
+            </div>
+        </div>
+
+        <div id="orderSection" class="order-section" style="display: none;">
+            <div class="form-box">
+                <h2>Product Details & Customer Select</h2>
+                <div id="productTableWrapper" class="product-table-wrapper">
+                    <table id="productTable">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div id="customerWrapper" class="customer-wrapper">
+                    <select id="customerList" onchange="selectCustomer()"></select>
+                </div>
+                <div id="summarySection" class="summary-section" style="display: none;">
+                    <table id="summaryTable">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Unit Price</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div id="totalAmount">TOTAL AMOUNT OF PURCHASE : ₹0/-</div>
+                    <button onclick="completePurchase()">Complete</button>
+                </div>
+                <div class="button-container">
+                    <button onclick="showAddProductSection()">Add Product</button>
+                    <button onclick="showAddCustomerSection()">Add Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
